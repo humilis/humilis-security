@@ -3,9 +3,9 @@ Humilis plug-in to deploy a security groups in a security
 
 [![PyPI](https://img.shields.io/pypi/v/humilis-security.svg?style=flat)](https://pypi.python.org/pypi/humilis-security)
 
-A [humilis][humilis] plug-in layer that deploys security groups in a [VPC][vpc].
+A [humilis][humilis] plug-in layer to deploy security groups in a [VPC][vpc].
 
-[security]: https://aws.amazon.com/vpc/
+[vpc]: https://aws.amazon.com/vpc/
 [humilis]: https://github.com/humilis/humilis
 
 
