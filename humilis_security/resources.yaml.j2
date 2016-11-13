@@ -6,42 +6,6 @@ resources:
       Properties:
         GroupDescription: "{{sg.description}}"
         VpcId: {{vpc}}
-        {% if sg.egress_rules %}
-        SecurityGroupEgress:
-            {% for rule in sg.egress_rules %}
-            - IpProtocol: {{rule.ip_protocol}}
-              {% if rule.cidr_ip %}
-              CidrIp: {{rule.cidr_ip}}
-              {% endif %}
-              {% if rule.from_port %}
-              FromPort: {{rule.from_port}}
-              {% endif %}
-              {% if rule.to_port %}
-              ToPort: {{rule.to_port}}
-              {% endif %}
-              {% if sg.source_security_group %}
-              SourceSecurityGroupId: {{sg.source_security_group}}
-              {% endif %}
-            {% endfor %}
-        {% endif %}
-        {% if sg.ingress_rules %}
-        SecurityGroupIngress:
-            {% for rule in sg.ingress_rules %}
-            - IpProtocol: {{rule.ip_protocol}}
-              {% if rule.cidr_ip %}
-              CidrIp: {{rule.cidr_ip}}
-              {% endif %}
-              {% if rule.from_port %}
-              FromPort: {{rule.from_port}}
-              {% endif %}
-              {% if rule.to_port %}
-              ToPort: {{rule.to_port}}
-              {% endif %}
-              {% if sg.source_security_group %}
-              SourceSecurityGroupId: {{sg.source_security_group}}
-              {% endif %}
-            {% endfor %}
-        {% endif %}
         Tags:
             - Key: Name
               Value: {{sg.name}}
@@ -49,4 +13,48 @@ resources:
             - Key: Description
               Value: {{sg.description}}
             {% endif %}
-    {% endfor %}
+    {% if sg.egress_rules %}
+    {% for rule in sg.egress_rules %}
+    {{sg.name}}Egress{{loop.index}}:
+      Type: "AWS::EC2::SecurityGroupEgress"
+      Properties:
+        GroupId:
+            Ref: {{sg.name}}
+        IpProtocol: {{rule.ip_protocol}}
+        {% if rule.cidr_ip %}
+        CidrIp: {{rule.cidr_ip}}
+        {% endif %}
+        {% if rule.from_port %}
+        FromPort: {{rule.from_port}}
+        {% endif %}
+        {% if rule.to_port %}
+        ToPort: {{rule.to_port}}
+        {% endif %}
+        {% if rule.source_security_group %}
+        SourceSecurityGroupId: {{rule.source_security_group_id}}
+        {% endif %}
+    {% endfor %}  # Egress rule loop
+    {% endif %}
+    {% if sg.ingress_rules %}
+    {% for rule in sg.ingress_rules %}
+    {{sg.name}}Ingress{{loop.index}}:
+      Type: "AWS::EC2::SecurityGroupIngress"
+      Properties:
+        GroupId:
+            Ref: {{sg.name}}
+        IpProtocol: {{rule.ip_protocol}}
+        {% if rule.cidr_ip %}
+        CidrIp: {{rule.cidr_ip}}
+        {% endif %}
+        {% if rule.from_port %}
+        FromPort: {{rule.from_port}}
+        {% endif %}
+        {% if rule.to_port %}
+        ToPort: {{rule.to_port}}
+        {% endif %}
+        {% if rule.source_security_group %}
+        SourceSecurityGroupId: {{rule.source_security_group_id}}
+        {% endif %}
+    {% endfor %}  # Egress rule loop
+    {% endif %}
+    {% endfor %}  # Security group loop

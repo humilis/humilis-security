@@ -29,4 +29,11 @@ humilis-security:
                   - ip_protocol: tcp
                     from_port: 22
                     to_port: 22
-                    source_security_group: {"Ref": "Dummy1"}
+                    source_security_group_id: {"Ref": "Dummy1"}
+              - name: Dummy3
+                description: First Dummy
+                ingress_rules:
+                  - ip_protocol: tcp
+                    from_port: 22
+                    to_port: 22
+                    source_security_group_id: {"Ref": "Dummy3"}
