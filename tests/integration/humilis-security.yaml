@@ -1,0 +1,32 @@
+---
+humilis-security:
+    description:
+        A dummy environment used for testing the security plugin.
+
+    layers:
+        - layer: vpc
+          layer_type: vpc
+
+        - layer: security
+          layer_type: security
+          vpc:
+              ref:
+                  parser: layer_output
+                  parameters:
+                      layer_name: vpc
+                      output_name: VpcId
+          security_groups:
+              - name: Dummy1
+                description: First Dummy
+                egress_rules:
+                  - ip_protocol: tcp
+                    from_port: 22
+                    to_port: 22
+                    cidr_ip: "0.0.0.0/0"
+              - name: Dummy2
+                description: First Dummy
+                ingress_rules:
+                  - ip_protocol: tcp
+                    from_port: 22
+                    to_port: 22
+                    source_security_group: {"Ref": "Dummy1"}
