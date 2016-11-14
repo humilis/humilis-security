@@ -17,7 +17,7 @@ def settings():
     stage = os.environ.get("STAGE", "DEV")
     return Settings(
         stage=stage,
-        environment_path="{}.yaml".format(envfile),
+        environment_path="{}.yaml.j2".format(envfile),
         output_path="{}-{}.outputs.yaml".format(envfile, stage))
 
 

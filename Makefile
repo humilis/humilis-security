@@ -31,18 +31,18 @@ create: develop
 	$(HUMILIS) create \
 		--stage $(STAGE) \
 		--output $(HUMILIS_ENV)-$(STAGE).outputs.yaml \
-		$(HUMILIS_ENV).yaml
+		$(HUMILIS_ENV).yaml.j2
 
 # update the test deployment
 update: develop
 	$(HUMILIS) update \
 		--stage $(STAGE) \
 		--output $(HUMILIS_ENV)-$(STAGE).outputs.yaml \
-		$(HUMILIS_ENV).yaml
+		$(HUMILIS_ENV).yaml.j2
 
 # delete the test deployment
 delete: develop
-	$(HUMILIS) delete --stage $(STAGE) $(HUMILIS_ENV).yaml
+	$(HUMILIS) delete --stage $(STAGE) $(HUMILIS_ENV).yaml.j2
 
 # upload to Pypi
 pypi: develop

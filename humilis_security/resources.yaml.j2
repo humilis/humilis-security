@@ -1,25 +1,30 @@
 ---
 resources:
     {% for sg in security_groups %}
-    {{sg.name}}:
+    {% set sanitized_name=sg.name.replace('-','').replace('_','') %}
+    {{sanitized_name}}:
       Type: "AWS::EC2::SecurityGroup"
       Properties:
+        {% if sg.description %}
         GroupDescription: "{{sg.description}}"
+        {% else %}
+        GroupDescription: "{{_env.name}}:{{_env.stage}}:{{_layer.name}}"
+        {% endif %}
         VpcId: {{vpc}}
         Tags:
             - Key: Name
               Value: {{sg.name}}
             {% if sg.description %}
             - Key: Description
-              Value: {{sg.description}}
+              Value: "{{sg.description}}"
             {% endif %}
     {% if sg.egress_rules %}
     {% for rule in sg.egress_rules %}
-    {{sg.name}}Egress{{loop.index}}:
+    {{sanitized_name}}Egress{{loop.index}}:
       Type: "AWS::EC2::SecurityGroupEgress"
       Properties:
         GroupId:
-            Ref: {{sg.name}}
+            Ref: {{sanitized_name}}
         IpProtocol: {{rule.ip_protocol}}
         {% if rule.cidr_ip %}
         CidrIp: {{rule.cidr_ip}}
@@ -37,11 +42,11 @@ resources:
     {% endif %}
     {% if sg.ingress_rules %}
     {% for rule in sg.ingress_rules %}
-    {{sg.name}}Ingress{{loop.index}}:
+    {{sanitized_name}}Ingress{{loop.index}}:
       Type: "AWS::EC2::SecurityGroupIngress"
       Properties:
         GroupId:
-            Ref: {{sg.name}}
+            Ref: {{sanitized_name}}
         IpProtocol: {{rule.ip_protocol}}
         {% if rule.cidr_ip %}
         CidrIp: {{rule.cidr_ip}}

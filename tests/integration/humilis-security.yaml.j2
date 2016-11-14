@@ -37,3 +37,9 @@ humilis-security:
                     from_port: 22
                     to_port: 22
                     source_security_group_id: {"Ref": "Dummy3"}
+              - name: humilis-security-{{stage}}
+                ingress_rules:
+                  - ip_protocol: tcp
+                    from_port: 22
+                    to_port: 22
+                    source_security_group_id: {"Ref": "Dummy3"}
