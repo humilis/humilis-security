@@ -35,7 +35,7 @@ resources:
         {% if rule.to_port %}
         ToPort: {{rule.to_port}}
         {% endif %}
-        {% if rule.source_security_group %}
+        {% if rule.source_security_group_id %}
         SourceSecurityGroupId: {{rule.source_security_group_id}}
         {% endif %}
     {% endfor %}  # Egress rule loop
@@ -57,7 +57,7 @@ resources:
         {% if rule.to_port %}
         ToPort: {{rule.to_port}}
         {% endif %}
-        {% if rule.source_security_group %}
+        {% if rule.source_security_group_id %}
         SourceSecurityGroupId: {{rule.source_security_group_id}}
         {% endif %}
     {% endfor %}  # Egress rule loop
