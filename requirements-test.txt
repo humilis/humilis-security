@@ -7,4 +7,4 @@ tox
 
 -e .
 git+https://github.com/humilis/humilis
-git+https://github.com/humilis/humilis-vpc
+git+https://github.com/FindHotel/humilis-vpc
