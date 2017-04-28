@@ -62,7 +62,6 @@ make delete
 
 See [humilis][humilis] documentation.
 
-[humilis]: https://github.com//humilis/blob/master/README.md
 
 
 ## Contact
